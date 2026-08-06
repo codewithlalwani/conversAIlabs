@@ -1,0 +1,13 @@
+# Qdrant local storage (large binary files)
+rag_app/qdrant_local/
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.env
+venv/
+.venv/
+
+# macOS
+.DS_Store
