@@ -1,11 +1,14 @@
 # Qdrant local storage (large binary files)
 rag_app/qdrant_local/
 
+# Secrets
+.env
+*.env
+
 # Python
 __pycache__/
 *.py[cod]
 *.pyo
-.env
 venv/
 .venv/
 
