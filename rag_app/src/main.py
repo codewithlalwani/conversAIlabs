@@ -11,7 +11,13 @@ from __future__ import annotations
 
 import argparse
 import sys
+import warnings
 from pathlib import Path
+
+# Suppress LibreSSL/urllib3 and Qdrant local-mode warnings
+warnings.filterwarnings("ignore", category=UserWarning)
+warnings.filterwarnings("ignore", message=".*LibreSSL.*")
+warnings.filterwarnings("ignore", message=".*NotOpenSSL.*")
 
 from dotenv import load_dotenv
 from qdrant_client import QdrantClient
@@ -54,7 +60,7 @@ def main() -> None:
 
     if args.ingest or not _collection_is_populated(client):
         print(f"Ingesting PDFs from: {args.pdf_dir}\n")
-        ingest_pdfs(args.pdf_dir, force=args.ingest, client=client)
+        ingest_pdfs(args.pdf_dir, force=args.ingest)
         print()
 
     print("RAG application ready. Type your question or 'exit' to quit.\n")
@@ -73,7 +79,11 @@ def main() -> None:
             break
 
         chunks = retrieve(query, client=client)
-        answer = generate_answer(query, chunks)
+        try:
+            answer = generate_answer(query, chunks)
+        except RuntimeError as e:
+            print(f"\n[Error] {e}\n")
+            continue
         print(f"\nAnswer:\n{answer}\n")
         print("-" * 60)
 

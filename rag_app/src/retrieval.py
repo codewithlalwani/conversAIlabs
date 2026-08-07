@@ -9,8 +9,8 @@ from sentence_transformers import SentenceTransformer
 
 from ingest import COLLECTION_NAME, EMBEDDING_MODEL, QDRANT_PATH
 
-TOP_K = 5
-MIN_SCORE = 0.3
+TOP_K = 8
+MIN_SCORE = 0.15
 
 _model: SentenceTransformer | None = None
 
